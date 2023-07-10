@@ -4,38 +4,31 @@ const Schema = mongoose.Schema;
 const recipeSchema = Schema(
   {
     title: { type: String, required: true },
-    cookTime: { type: String, required: true, unique: true },
-    measurement: { type: String, required: true },
-    ingredients: [
-      { type: Schema.Types.ObjectId, required: true, ref: "Ingredient" },
+    ingredientList: [
+      {
+        ingredient: {
+          type: Schema.Types.ObjectId,
+          ref: "Ingredient",
+        },
+        measurement: { type: String },
+      },
     ],
-    instructions: { type: String, required: true },
-    tags: {
-      type: String,
-      // enum: [
-      //   "Favorite",
-      //   "Dinner",
-      //   "Lunch",
-      //   "Breakfast",
-      //   "Vegetarian",
-      //   "Keto",
-      //   "Snack",
-      // ],
+    instructions: { type: String, required: true, default: "" },
+    tagList: [
+      {
+        tag: {
+          type: Schema.Types.ObjectId,
+          required: false,
+          ref: "Tag",
+        },
+      },
+    ],
+    imageUrl: { type: String, default: "" },
+    author: {
+      type: Schema.Types.ObjectId,
       required: false,
+      ref: "User",
     },
-    imageUrl: { type: String, required: false, default: "" },
-    cuisine: {
-      type: String,
-      required: false,
-      // enum: [
-      //   "American Food",
-      //   "Japanese Food",
-      //   "French Food",
-      //   "Italian Food",
-      //   "Chinese Food",
-      // ],
-    },
-
     isDeleted: { type: Boolean, default: false, select: false },
   },
   { timestamps: true }

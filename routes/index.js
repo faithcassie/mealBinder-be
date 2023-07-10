@@ -13,6 +13,14 @@ router.use("/users", userApi);
 const recipeApi = require("./recipe.api");
 router.use("/recipes", recipeApi);
 
+// ingredientAPI
+const ingredientApi = require("./ingredient.api");
+router.use("/ingredients", ingredientApi);
+
+// tagAPI
+const tagApi = require("./tag.api");
+router.use("/tags", tagApi);
+
 // plannerAPI
 const plannerApi = require("./planner.api");
 router.use("/planner", plannerApi);
