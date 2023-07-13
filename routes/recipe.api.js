@@ -28,6 +28,15 @@ router.post(
  * @access Login required
  */
 
+router.put(
+  "/:id",
+  authentication.loginRequired,
+  validators.validate([
+    param("id").exists().isString().custom(validators.checkObjectId),
+  ]),
+  recipeController.updateRecipe
+);
+
 /**
  * @route GET /recipes/:id
  * @description View a recipe
@@ -48,6 +57,21 @@ router.get(
  * @access Login required
  */
 router.get("/", authentication.loginRequired, recipeController.getAllRecipes);
+
+/**
+ * @route GET /recipes/:id/tags
+ * @description Get tag list of a recipe
+ * @access Login required
+ */
+
+router.get(
+  "/:id/tags",
+  authentication.loginRequired,
+  validators.validate([
+    param("id").exists().isString().custom(validators.checkObjectId),
+  ]),
+  recipeController.getTagssOfRecipe
+);
 
 /**
  * @route GET /recipes/:id/ingredients

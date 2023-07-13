@@ -14,6 +14,7 @@ const userSchema = Schema(
 
     isDeleted: { type: Boolean, default: false, select: false },
     recipeCount: { type: Number, default: 0 },
+    // planner: [{ planner: type: objID}] cannot populate huge data
   },
   { timestamps: true }
 );

@@ -5,23 +5,35 @@ const Recipe = require("../models/Recipe");
 const recipeController = {};
 
 recipeController.getAllRecipes = catchAsync(async (req, res, next) => {
-  // const currentUserId = req.userId;
-  let { page, limit, ...filter } = { ...req.query };
+  let { page, limit, tag, name } = { ...req.query };
 
-  // let user = await User.findById(currentUserId);
-  // if (!user) throw new AppError(400, "User not found", "Get All Recipes Error");
   page = parseInt(page) || 1;
-  limit = parseInt(page) || 10;
+  limit = parseInt(limit) || 10;
 
-  let recipes = await Recipe.find();
+  let offset = limit * (page - 1);
+  let filter = [];
+  if (name) {
+    filter.push({
+      title: { $regex: new RegExp(name, "i") },
+    });
+  }
+  if (tag) {
+    filter.push({ "tagList.tag": tag });
+  }
+  const fillterCriteria = filter.length ? { $and: filter } : {};
 
-  const count = await Recipe.countDocuments({});
+  let recipes = await Recipe.find(fillterCriteria)
+    .skip(offset)
+    .limit(limit)
+    .populate("tagList.tag");
 
+  const count = await Recipe.countDocuments(fillterCriteria);
+  const totalPage = Math.ceil(count / limit);
   return sendResponse(
     res,
     200,
     true,
-    recipes,
+    { recipes, count, totalPage },
     null,
     "Get all recipes successfully"
   );
@@ -67,6 +79,39 @@ recipeController.addNewRecipe = catchAsync(async (req, res, next) => {
   );
 });
 
+recipeController.updateRecipe = catchAsync(async (req, res, next) => {
+  const recipeId = req.params.id;
+  const { title, ingredientList, instructions, tagList, imageUrl } = req.body;
+  let recipe = await Recipe.findOneAndUpdate(
+    { _id: recipeId },
+    { title, ingredientList, instructions, tagList, imageUrl },
+    { new: true }
+  )
+    .populate("ingredientList.ingredient")
+    .populate("tagList.tag");
+
+  if (!recipe)
+    throw new AppError(400, "Recipe not found", "Get recipe details error");
+
+  return sendResponse(
+    res,
+    200,
+    true,
+    recipe,
+    null,
+    "Update recipe successfully"
+  );
+});
+recipeController.getTagssOfRecipe = catchAsync(async (req, res, next) => {
+  const recipeId = req.params.id;
+  const recipe = await Recipe.findById(recipeId, "tagList.tag")
+    .populate("tagList.tag")
+    .exec();
+  if (!recipe) throw new AppError(400, "Recipe not found", "Get tags error");
+  const tagList = recipe.tagList.map((tag) => tag.tag.tag);
+
+  return sendResponse(res, 200, true, tagList, null, "Get tags successfully");
+});
 recipeController.getIngredientsofRecipe = catchAsync(async (req, res, next) => {
   const recipeId = req.params.id;
 
@@ -86,6 +131,6 @@ recipeController.getIngredientsofRecipe = catchAsync(async (req, res, next) => {
     null,
     "Get ingredients successfully"
   );
-});
+}); // no use
 
 module.exports = recipeController;
