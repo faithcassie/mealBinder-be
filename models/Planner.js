@@ -13,11 +13,17 @@ const plannerSchema = Schema(
       },
     ],
     date: {
-      type: Date,
-      default: Date.now,
-      required: true,
+      type: String,
+      default: () => new Date().toISOString().split("T")[0],
     },
-    // author ?
+    author: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
+    },
   },
   { timestamps: true }
 );
+
+const Planner = mongoose.model("Planner", plannerSchema);
+module.exports = Planner;

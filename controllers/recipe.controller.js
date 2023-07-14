@@ -8,7 +8,7 @@ recipeController.getAllRecipes = catchAsync(async (req, res, next) => {
   let { page, limit, tag, name } = { ...req.query };
 
   page = parseInt(page) || 1;
-  limit = parseInt(limit) || 10;
+  limit = parseInt(limit) || 9;
 
   let offset = limit * (page - 1);
   let filter = [];

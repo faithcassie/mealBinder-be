@@ -23,6 +23,6 @@ router.use("/tags", tagApi);
 
 // plannerAPI
 const plannerApi = require("./planner.api");
-router.use("/planner", plannerApi);
+router.use("/planners", plannerApi);
 
 module.exports = router;
