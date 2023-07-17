@@ -6,7 +6,7 @@ const recipeController = {};
 
 recipeController.getAllRecipes = catchAsync(async (req, res, next) => {
   let { page, limit, tag, name } = { ...req.query };
-
+  const currentUserId = req.userId;
   page = parseInt(page) || 1;
   limit = parseInt(limit) || 9;
 
@@ -20,7 +20,9 @@ recipeController.getAllRecipes = catchAsync(async (req, res, next) => {
   if (tag) {
     filter.push({ "tagList.tag": tag });
   }
-  const fillterCriteria = filter.length ? { $and: filter } : {};
+  const fillterCriteria = filter.length
+    ? { $and: filter, author: currentUserId }
+    : { author: currentUserId };
 
   let recipes = await Recipe.find(fillterCriteria)
     .skip(offset)

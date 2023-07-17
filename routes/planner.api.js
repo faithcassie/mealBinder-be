@@ -30,8 +30,24 @@ router.post(
 router.get(
   "/",
   authentication.loginRequired,
-  validators.validate([body("date", "Missing date").exists().notEmpty()]),
   plannerController.getPlannerByDate
+);
+
+/**
+ * @route GET /planners
+ * @description Get planner by date
+ * @body { date }
+ * @access Login required
+ */
+router.put(
+  "/",
+  authentication.loginRequired,
+  // validators.validate([
+  //     body("recipeId", "Invalid recipeId")
+  //     .exists()
+  //     .custom(validators.checkObjectId),
+  //   ]),
+  plannerController.updateMealList
 );
 
 module.exports = router;

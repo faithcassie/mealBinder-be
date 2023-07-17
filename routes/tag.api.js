@@ -21,7 +21,7 @@ router.post(
 
 /**
  * @route GET /tags
- * @description Get tags
+ * @description Get all tags
  * @access Login required
  */
 
