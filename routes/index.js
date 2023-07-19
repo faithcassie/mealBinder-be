@@ -25,4 +25,8 @@ router.use("/tags", tagApi);
 const plannerApi = require("./planner.api");
 router.use("/planners", plannerApi);
 
+// insightAPI
+const insightApi = require("./insight.api");
+router.use("/insights", insightApi);
+
 module.exports = router;

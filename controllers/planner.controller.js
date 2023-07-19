@@ -20,12 +20,12 @@ plannerController.createNewPlan = catchAsync(async (req, res, next) => {
       mealList,
       date,
       author: currentUserId,
-    })
-      .populate({
-        path: "mealList.recipe",
-        select: "title imageUrl _id",
-      })
-      .exec();
+    });
+
+    // await planner.populate({
+    //   path: "mealList.recipe",
+    //   select: "title imageUrl _id",
+    // });
   } else {
     // push mealList vao planner.mealList
     planner.mealList.push(...mealList);
@@ -34,11 +34,24 @@ plannerController.createNewPlan = catchAsync(async (req, res, next) => {
 
   planner = await planner.populate("mealList.recipe");
 
+  const author = new mongoose.Types.ObjectId(currentUserId);
+  const mealCount = await Planner.aggregate([
+    {
+      $match: { author: author },
+    },
+    {
+      $group: {
+        _id: null,
+        total: { $sum: { $size: "$mealList" } },
+      },
+    },
+  ]);
+
   return sendResponse(
     res,
     200,
     true,
-    planner,
+    { planner, mealCount: mealCount[0]?.total || 0 },
     null,
     "Create new plan successfully"
   );
@@ -105,11 +118,24 @@ plannerController.updateMealList = catchAsync(async (req, res, next) => {
   console.log(planner.mealList);
   await planner.save();
 
+  const author = new mongoose.Types.ObjectId(currentUserId);
+  const mealCount = await Planner.aggregate([
+    {
+      $match: { author: author },
+    },
+    {
+      $group: {
+        _id: null,
+        total: { $sum: { $size: "$mealList" } },
+      },
+    },
+  ]);
+
   return sendResponse(
     res,
     200,
     true,
-    planner,
+    { planner, mealCount: mealCount[0]?.total || 0 },
     null,
     "Update planner meal list successfully"
   );

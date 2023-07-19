@@ -39,15 +39,6 @@ router.get(
  * @body { date }
  * @access Login required
  */
-router.put(
-  "/",
-  authentication.loginRequired,
-  // validators.validate([
-  //     body("recipeId", "Invalid recipeId")
-  //     .exists()
-  //     .custom(validators.checkObjectId),
-  //   ]),
-  plannerController.updateMealList
-);
+router.put("/", authentication.loginRequired, plannerController.updateMealList);
 
 module.exports = router;
