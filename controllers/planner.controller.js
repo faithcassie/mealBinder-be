@@ -27,8 +27,18 @@ plannerController.createNewPlan = catchAsync(async (req, res, next) => {
     //   select: "title imageUrl _id",
     // });
   } else {
+    // find recipeId
+    if (
+      planner.mealList.find(
+        (e) => e.recipe._id.toString() === mealList[0].recipe
+      )
+    ) {
+      throw new AppError(400, "Recipe exists", "Add recipe error");
+    } else {
+      planner.mealList.push(...mealList);
+    }
     // push mealList vao planner.mealList
-    planner.mealList.push(...mealList);
+
     await planner.save();
   }
 
