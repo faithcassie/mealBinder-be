@@ -7,8 +7,8 @@ const { body, param } = require("express-validator");
 
 /**
  * @route POST /recipes
- * @description Add a new recipe // IMPORT?
- * @body { title, cookTime, ingredientList, instructions, tagList, imageURL }
+ * @description Add a new recipe
+ * @body { title, ingredientList, instructions, tagList, imageURL }
  * @access Login required
  */
 router.post(
@@ -36,6 +36,20 @@ router.put(
   ]),
   recipeController.updateRecipe
 );
+
+/**
+ * @route DELETE  /posts/:id
+ * @description Delete a post
+ * @access Login required
+ */
+// router.put(
+//   "/:id",
+//   authentication.loginRequired,
+//   validators.validate([
+//     param("id").exists().isString().custom(validators.checkObjectId),
+//   ]),
+//   recipeController.updateRecipe
+// );
 
 /**
  * @route GET /recipes/:id

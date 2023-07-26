@@ -41,4 +41,28 @@ userController.getCurrentUser = catchAsync(async (req, res, next) => {
   );
 });
 
+userController.updateCurrentUser = catchAsync(async (req, res, next) => {
+  const currentUserId = req.userId;
+
+  let user = await User.findById(currentUserId);
+  if (!user)
+    throw new AppError(400, "User not found", "Get Current User Error");
+
+  const allows = ["name", "avatarUrl", "country"];
+  allows.forEach((field) => {
+    if (req.body[field] !== undefined) {
+      user[field] = req.body[field];
+    }
+  });
+  await user.save();
+  return sendResponse(
+    res,
+    200,
+    true,
+    user,
+    null,
+    "Update user profile successully"
+  );
+});
+
 module.exports = userController;

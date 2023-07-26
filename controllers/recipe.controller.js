@@ -4,6 +4,14 @@ const Recipe = require("../models/Recipe");
 
 const recipeController = {};
 
+const calculateRecipeCount = async (userId) => {
+  const recipeCount = await Recipe.countDocuments({
+    author: userId,
+    isDeleted: false,
+  });
+  await User.findOneAndUpdate(userId, { recipeCount });
+};
+
 recipeController.getAllRecipes = catchAsync(async (req, res, next) => {
   let { page, limit, tag, name } = { ...req.query };
   const currentUserId = req.userId;
@@ -71,6 +79,8 @@ recipeController.addNewRecipe = catchAsync(async (req, res, next) => {
     imageUrl,
     author: currentUserId,
   });
+  await calculateRecipeCount(currentUserId);
+
   return sendResponse(
     res,
     200,

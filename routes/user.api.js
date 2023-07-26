@@ -26,28 +26,22 @@ router.post(
 
 /**
  * @route GET /users/me
- * @description Get current user info
+ * @description Get current user profile
  * @access Login required
  */
 router.get("/me", authentication.loginRequired, userController.getCurrentUser);
 
 /**
- * @route GET /users/:id
- * @description View user profile
- * @access Login required
- */
-router.get(
-  "/users/:id",
-  authentication.loginRequired,
-  userController.getCurrentUser
-);
-
-/**
- * @route PUT /users/:id
+ * @route PUT /me
  * @description Update user profile
  * @body { body }
  * @access Login required
  */
+router.put(
+  "/me",
+  authentication.loginRequired,
+  userController.updateCurrentUser
+);
 
 /**
  * @route DELETE /users/:id
