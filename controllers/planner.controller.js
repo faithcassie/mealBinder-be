@@ -125,7 +125,7 @@ plannerController.updateMealList = catchAsync(async (req, res, next) => {
   planner.mealList = planner.mealList.filter(
     (meal) => meal.recipe._id.toString() !== recipeId
   );
-  console.log(planner.mealList);
+
   await planner.save();
 
   const author = new mongoose.Types.ObjectId(currentUserId);

@@ -38,7 +38,7 @@ router.put(
 );
 
 /**
- * @route DELETE  /posts/:id
+ * @route DELETE  /recipes/:id
  * @description Delete a post
  * @access Login required
  */

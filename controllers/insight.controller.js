@@ -109,7 +109,7 @@ insightController.getMealsByDate = catchAsync(async (req, res, next) => {
     },
   ]);
   const lastSevenDays = data.slice(-7);
-  console.log(lastSevenDays);
+  // console.log(lastSevenDays);
 
   return sendResponse(
     res,

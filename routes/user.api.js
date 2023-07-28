@@ -43,10 +43,4 @@ router.put(
   userController.updateCurrentUser
 );
 
-/**
- * @route DELETE /users/:id
- * @description Delete user profile
- * @access Login required
- */
-
 module.exports = router;

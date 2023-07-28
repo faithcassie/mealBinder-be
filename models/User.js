@@ -7,13 +7,14 @@ const userSchema = Schema(
   {
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    password: { type: String, required: true, select: false },
+    password: { type: String, required: false, select: false },
 
     avatarUrl: { type: String, required: false, default: "" },
     country: { type: String, required: false, default: "" },
 
     isDeleted: { type: Boolean, default: false, select: false },
-    recipeCount: { type: Number, default: 0 },
+
+    googleId: String,
     // planner: [{ planner: type: objID}] cannot populate huge data
   },
   { timestamps: true }
