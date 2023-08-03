@@ -1,5 +1,4 @@
 var express = require("express");
-// const validators = require("../middlewares/validators");
 const authentication = require("../middlewares/authentication");
 var router = express.Router();
 const insightController = require("../controllers/insight.controller");

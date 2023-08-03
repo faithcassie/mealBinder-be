@@ -7,7 +7,7 @@ const tagController = require("../controllers/tag.controller");
 
 /**
  * @route POST /tags
- * @description Add a new tag // IMPORT?
+ * @description Add a new tag
  * @body { tag }
  * @access Login required
  */

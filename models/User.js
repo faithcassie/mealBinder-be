@@ -15,7 +15,6 @@ const userSchema = Schema(
     isDeleted: { type: Boolean, default: false, select: false },
 
     googleId: String,
-    // planner: [{ planner: type: objID}] cannot populate huge data
   },
   { timestamps: true }
 );

@@ -1,14 +1,12 @@
 const jwt = require("jsonwebtoken");
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 const { AppError } = require("../helpers/utils");
-// const mongoose = require("mongoose");
 
 const authentication = {};
 
 authentication.loginRequired = (req, res, next) => {
   try {
     const tokenString = req.headers.authorization;
-    // console.log(tokenString);
     if (!tokenString)
       throw new AppError(401, "Login Required", "Authentication Error");
     const token = tokenString.replace("Bearer ", "");

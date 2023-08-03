@@ -143,6 +143,6 @@ recipeController.getIngredientsofRecipe = catchAsync(async (req, res, next) => {
     null,
     "Get ingredients successfully"
   );
-}); // no use
+});
 
 module.exports = recipeController;

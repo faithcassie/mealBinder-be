@@ -22,7 +22,6 @@ tagController.addNewTag = catchAsync(async (req, res, next) => {
 
 tagController.getAllTags = catchAsync(async (req, res, next) => {
   const { tag } = req.body;
-  // tag: "bread"
   let searchCondition = {};
   if (tag) {
     searchCondition.tag = { $regex: tag, $options: "i" };

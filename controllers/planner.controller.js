@@ -8,7 +8,6 @@ plannerController.createNewPlan = catchAsync(async (req, res, next) => {
   const currentUserId = req.userId;
   const { mealList, date } = req.body;
 
-  // find planner with {date}
   let planner = await Planner.findOne({ date })
     .populate({
       path: "mealList.recipe",
@@ -21,13 +20,7 @@ plannerController.createNewPlan = catchAsync(async (req, res, next) => {
       date,
       author: currentUserId,
     });
-
-    // await planner.populate({
-    //   path: "mealList.recipe",
-    //   select: "title imageUrl _id",
-    // });
   } else {
-    // find recipeId
     if (
       planner.mealList.find(
         (e) => e.recipe._id.toString() === mealList[0].recipe
@@ -37,7 +30,6 @@ plannerController.createNewPlan = catchAsync(async (req, res, next) => {
     } else {
       planner.mealList.push(...mealList);
     }
-    // push mealList vao planner.mealList
 
     await planner.save();
   }
@@ -70,7 +62,6 @@ plannerController.createNewPlan = catchAsync(async (req, res, next) => {
 plannerController.getPlannerByDate = catchAsync(async (req, res, next) => {
   const currentUserId = req.userId;
   const { date } = { ...req.query };
-  // count total recipes here
   const author = new mongoose.Types.ObjectId(currentUserId);
   const mealCount = await Planner.aggregate([
     {
@@ -119,8 +110,6 @@ plannerController.updateMealList = catchAsync(async (req, res, next) => {
 
   if (!planner)
     throw new AppError(400, "Planner not found", "Update meal list error");
-
-  //   planner.mealList.pull({ recipe: recipeId });
 
   planner.mealList = planner.mealList.filter(
     (meal) => meal.recipe._id.toString() !== recipeId

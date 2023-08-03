@@ -14,8 +14,6 @@ ingredientController.addNewIngredient = catchAsync(async (req, res, next) => {
     ingredientName,
   });
 
-  //   const count = await Ingredient.countDocuments();
-
   return sendResponse(
     res,
     200,

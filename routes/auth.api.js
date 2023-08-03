@@ -62,10 +62,6 @@ router.get(
 router.get(
   "/google/callback",
   passport.authenticate("google"),
-  // {
-  //   successRedirect: process.env.CLIENT_URL,
-  //   failureRedirect: "/login/failed",
-  // },
   async (req, res) => {
     if (req && req.user && req.user.accessToken) {
       const accessToken = await req.user.user.generateToken();
@@ -80,14 +76,5 @@ router.get("/logout", (req, res) => {
   req.logout();
   res.json("Redirect");
 });
-
-// router.get("/logout", (req, res) => {
-//   console.log("testing logout");
-//   req.logout({}, (err) => {
-//     console.log(err);
-//     if (err) return res.status(500).json({ message: "Something went wrong." });
-//     res.redirect(process.env.CLIENT_URL);
-//   });
-// });
 
 module.exports = router;
